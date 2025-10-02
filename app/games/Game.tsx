@@ -92,7 +92,7 @@ export default function Game() {
             });
 
             // Game Loop
-            app.ticker.add(() => {
+            app.ticker.add((ticker) => {
                 Matter.Engine.update(engine, 1000 / 60);
 
                 // Sync Matter bodies to Pixi graphics
