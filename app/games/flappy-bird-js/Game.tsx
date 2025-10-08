@@ -17,11 +17,9 @@ export default function Game() {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const f = game();
+    const end = start();
 
-    return () => {
-      f();
-    };
+    return () => end();
   }, []);
 
   return <>
@@ -36,8 +34,7 @@ export default function Game() {
   </>;
 }
 
-
-function game() {
+function start() {
   interface NetInput {
     pipeDistance: number;
     pipeY: number;
@@ -288,6 +285,13 @@ function game() {
       inertia: Infinity,
       collisionFilter: { category: playerCategory, group: -1 },
       label: "individual",
+      render: {
+        sprite: {
+          texture: './assets/bird.png', // Example image URL
+          xScale: 1,
+          yScale: 1
+        }
+      }
     });
 
     Composite.add(engine.world, [body]);
