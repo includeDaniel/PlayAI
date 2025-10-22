@@ -13,318 +13,374 @@ const {
 
 import { useEffect, useRef } from "react";
 
-export default function Game() {
+export default function Jogo() {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const end = start();
+    const finalizar = iniciar(containerRef!);
 
-    return () => end();
-  }, []);
+    return () => finalizar();
+  }, [containerRef]);
 
-  return <>
-    <p>pipeDistance: <label id="pipeDistance"></label></p>
-    <p>pipeY: <label id="pipeY"></label></p>
-    <p>birdVelocity: <label id="birdVelocity"></label></p>
-    <p>birdY: <label id="birdY"></label></p>
-    <p>time: <label id="time"></label></p>
-    <p>POINTS: <label id="points"></label></p>
-    <p>timeScale: <input type="range" id="timeScale"></input></p>
-    <div ref={containerRef} />
-  </>;
+  return (
+    <div className="flex flex-col items-center p-4 space-y-4 bg-gray-100 min-h-screen text-black">
+      <h1 className="text-xxl font-semibold ">Flappy Bird</h1>
+
+      <div ref={containerRef} className="w-full bg-white shadow-md rounded-md flex justify-center items-center" />
+      <div>
+        <p className="text-lg font-semibold">Distância do Cano: <label id="distanciaCano" className="font-normal"></label></p>
+        <p className="text-lg font-semibold">Y do Cano: <label id="canoY" className="font-normal"></label></p>
+        <p className="text-lg font-semibold">Velocidade do Pássaro: <label id="velocidadePassaro" className="font-normal"></label></p>
+        <p className="text-lg font-semibold">Y do Pássaro: <label id="passaroY" className="font-normal"></label></p>
+        <p className="text-lg font-semibold">Tempo: <label id="tempo" className="font-normal"></label></p>
+        <p className="text-lg font-semibold">PONTOS: <label id="pontos" className="font-bold text-green-600"></label></p>
+        <div className="flex items-center space-x-2">
+          <label htmlFor="escalaTempo" className="text-lg font-semibold">Escala de Tempo:</label>
+          <input type="range" id="escalaTempo" className="w-64" />
+        </div>
+      </div>
+      <div ref={containerRef} className="w-full bg-white shadow-md rounded-md flex justify-center items-center" />
+      <div className="text-sm text-gray-700 leading-relaxed">
+        Este código implementa um agente treinado para jogar Flappy Bird utilizando um perceptron de uma camada e um algoritmo genético. O agente é representado por indivíduos em uma população, onde cada indivíduo possui um conjunto de genes que define seu comportamento. A cada ciclo, os indivíduos tomam decisões baseadas em entradas do ambiente e são avaliados com base em seu desempenho.
+
+        <br /><br />
+        <strong>Estrutura do Código:</strong>
+        <br />
+        O código utiliza a biblioteca Matter.js para simular a física do jogo. Por exemplo, os canos e os pássaros são representados como corpos físicos:
+        <textarea readOnly className="w-full bg-gray-200 p-2 rounded-md mt-2">
+          {`const canoInferior = Bodies.rectangle(50, 50, 50, 400, { ... });
+const canoSuperior = Bodies.rectangle(50, 50, 50, 400, { ... });`}
+        </textarea>
+        Esses corpos são adicionados ao mundo da simulação:
+        <textarea readOnly className="w-full bg-gray-200 p-2 rounded-md mt-2">
+          {`Composite.add(motor.world, [canoInferior, canoSuperior]);`}
+        </textarea>
+
+        <br /><br />
+        <strong>Decisão do Agente:</strong>
+        <br />
+        Cada indivíduo decide se deve "pular" com base em um perceptron de uma camada. As entradas para o perceptron incluem a distância do cano, a posição do cano, a velocidade do pássaro e a posição do pássaro:
+        <textarea readOnly className="w-full bg-gray-200 p-2 rounded-md mt-2">
+          {`const entradas = [distanciaCano, canoY, velocidadePassaro, passaroY];
+const soma = entradas.reduce((acc, entrada, index) => acc + entrada * pesos[index], 0);
+return soma >= 0;`}
+        </textarea>
+        Se a soma ponderada das entradas for maior ou igual a zero, o agente decide pular.
+
+        <br /><br />
+        <strong>Algoritmo Genético:</strong>
+        <br />
+        Após cada ciclo, os indivíduos são avaliados com base em seu tempo de sobrevivência:
+        <textarea readOnly className="w-full bg-gray-200 p-2 rounded-md mt-2">
+          {`function obterFitness(individuo) { return individuo.tempo - TEMPO_TREINAMENTO; }`}
+        </textarea>
+        Os indivíduos mais aptos são selecionados para reprodução, e novos indivíduos são criados por cruzamento e mutação:
+        <textarea readOnly className="w-full bg-gray-200 p-2 rounded-md mt-2">
+          {`const novosGenes = cruzar(ind1, ind2);
+novaPopulacao.push(criarIndividuo(novosGenes));`}
+        </textarea>
+
+        <br /><br />
+        <strong>Treinamento e Evolução:</strong>
+        <br />
+        O treinamento ocorre ao longo de múltiplos ciclos. Quando todos os indivíduos morrem, uma nova população é gerada:
+        <textarea readOnly className="w-full bg-gray-200 p-2 rounded-md mt-2">
+          {`if (todosMortos) { populacao = novaPopulacao(); }`}
+        </textarea>
+        Isso permite que o algoritmo genético refine os genes dos indivíduos ao longo do tempo.
+
+        <br /><br />
+        <strong>Interatividade:</strong>
+        <br />
+        O código também permite ajustar a escala de tempo da simulação:
+        <textarea readOnly className="w-full bg-gray-200 p-2 rounded-md mt-2">
+          {`motor.timing.timeScale = 10 * parseInt(entrada.value) / 100;`}
+        </textarea>
+        Além disso, informações como a distância do cano e a posição do pássaro são exibidas na interface para facilitar a análise do comportamento do agente.
+      </div>
+    </div>
+  );
 }
 
-function start() {
-  interface NetInput {
-    pipeDistance: number;
-    pipeY: number;
-    birdVelocity: number;
-    birdY: number;
-    weights: number[];
+
+function iniciar(containerRef: React.RefObject<HTMLDivElement | null>) {
+  interface EntradaRede {
+    distanciaCano: number;
+    canoY: number;
+    velocidadePassaro: number;
+    passaroY: number;
+    pesos: number[];
   }
 
-  interface Individual {
-    body: Matter.Body;
+  interface Individuo {
+    corpo: Matter.Body;
     genes: number[];
-    time: number;
-    isAlive: boolean;
+    tempo: number;
+    estaVivo: boolean;
   }
 
-  const TRAINNING_TIME = 30 * 1000;
-  const POPULATION_SIZE = 1000;
-  const SCALE = 1;
+  const TEMPO_TREINAMENTO = 30 * 1000;
+  const TAMANHO_POPULACAO = 1000;
+  const ESCALA = 1;
 
-  const engine = Engine.create();
-  const render = Render.create({
-    element: document.body,
-    engine: engine,
+  const motor = Engine.create();
+  const renderizador = Render.create({
+    element: containerRef.current!,
+    engine: motor,
     options: {
       width: 500,
       height: 500,
     },
   });
 
-  const playerCategory = 0x0001;
-  const obsCategory = 0x0002;
+  const categoriaJogador = 0x0001;
+  const categoriaObstaculo = 0x0002;
 
-  const bot = Bodies.rectangle(50, 50, 50, 400, {
+  const canoInferior = Bodies.rectangle(50, 50, 50, 400, {
     inertia: Infinity,
     friction: 0,
-    collisionFilter: { category: obsCategory },
-    label: "obstacle",
+    collisionFilter: { category: categoriaObstaculo },
+    label: "obstaculo",
   });
 
-  const top = Bodies.rectangle(50, 50, 50, 400, {
+  const canoSuperior = Bodies.rectangle(50, 50, 50, 400, {
     inertia: Infinity,
     friction: 0,
-    label: "obstacle",
-    collisionFilter: { category: obsCategory },
+    label: "obstaculo",
+    collisionFilter: { category: categoriaObstaculo },
   });
 
-  engine.gravity.scale = 0;
+  motor.gravity.scale = 0;
 
-  Composite.add(engine.world, [bot, top]);
+  Composite.add(motor.world, [canoInferior, canoSuperior]);
 
-  Render.run(render);
+  Render.run(renderizador);
 
-  const runner = Runner.create();
-  Runner.run(runner, engine);
+  const executor = Runner.create();
+  Runner.run(executor, motor);
 
-  reset();
+  reiniciar();
 
-  let population: Individual[] = [];
+  let populacao: Individuo[] = [];
 
-  Array.from({ length: POPULATION_SIZE }).forEach((_) => createIndividual());
+  Array.from({ length: TAMANHO_POPULACAO }).forEach((_) => criarIndividuo());
 
-  let cycles = 1;
-  let points = 0;
-  let randomHeight = 0;
+  let ciclos = 1;
+  let pontos = 0;
 
-  Events.on(engine, "beforeUpdate", loop);
-  Events.on(engine, "collisionStart", collisionHandler);
+  Events.on(motor, "beforeUpdate", loop);
+  Events.on(motor, "collisionStart", tratarColisao);
 
-  document.getElementById("timeScale")!.onchange = (event) => {
-    event.preventDefault();
-    const input: HTMLInputElement = document.getElementById("timeScale")! as HTMLInputElement;
+  document.getElementById("escalaTempo")!.onchange = (evento) => {
+    evento.preventDefault();
+    const entrada: HTMLInputElement = document.getElementById("escalaTempo")! as HTMLInputElement;
 
-    engine.timing.timeScale = 10 * parseInt(input.value) / 100;
+    motor.timing.timeScale = 10 * parseInt(entrada.value) / 100;
   }
 
-
-  function collisionHandler(event: Matter.IEventCollision<Matter.Engine>) {
-    event.pairs.forEach((pair) => {
-      const body = pair.bodyB;
-      const individual = population.find(
-        (individual) => individual.body === body
+  function tratarColisao(evento: Matter.IEventCollision<Matter.Engine>) {
+    evento.pairs.forEach((par) => {
+      const corpo = par.bodyB;
+      const individuo = populacao.find(
+        (individuo) => individuo.corpo === corpo
       );
 
-      if (individual) removeIndividual(individual);
+      if (individuo) removerIndividuo(individuo);
     });
   }
 
-  function loop(event: Matter.IEventTimestamped<Matter.Engine>) {
-    population.forEach((individual) => {
-      Body.applyForce(individual.body, individual.body.position, {
+  function loop(evento: Matter.IEventTimestamped<Matter.Engine>) {
+    populacao.forEach((individuo) => {
+      Body.applyForce(individuo.corpo, individuo.corpo.position, {
         x: 0,
-        y: individual.body.mass * 0.001 * SCALE,
+        y: individuo.corpo.mass * 0.001 * ESCALA,
       });
     });
 
-    Body.setVelocity(top, { x: -2 * SCALE, y: 0 });
-    Body.setVelocity(bot, { x: -2 * SCALE, y: 0 });
+    Body.setVelocity(canoSuperior, { x: -2 * ESCALA, y: 0 });
+    Body.setVelocity(canoInferior, { x: -2 * ESCALA, y: 0 });
 
-    //Body.setPosition(top, { ...top.position, y:  })
+    if (canoSuperior.position.x < 50) {
+      reiniciar();
 
-    if (top.position.x < 50) {
-      reset();
-
-      document.getElementById("points")!.innerText = (++points).toString();
+      document.getElementById("pontos")!.innerText = (++pontos).toString();
     }
 
-    population.filter(individual => individual.isAlive).forEach(individual => {
-      if (individual.body.position.y > 500 || individual.body.position.y < 0) {
-        removeIndividual(individual)
+    populacao.filter(individuo => individuo.estaVivo).forEach(individuo => {
+      if (individuo.corpo.position.y > 500 || individuo.corpo.position.y < 0) {
+        removerIndividuo(individuo)
       }
     })
 
-    population
-      .filter(individual => individual.isAlive)
-      .forEach(individual => individual.time = event.timestamp)
+    populacao
+      .filter(individuo => individuo.estaVivo)
+      .forEach(individuo => individuo.tempo = evento.timestamp)
 
-    population.forEach((individual) => {
-      const shouldJump = individualShouldJump(individual);
+    populacao.forEach((individuo) => {
+      const devePular = individuoDevePular(individuo);
 
-      if (shouldJump) jump(individual.body);
+      if (devePular) pular(individuo.corpo);
     });
 
-    const isAllDead = population.every(individual => !individual.isAlive);
+    const todosMortos = populacao.every(individuo => !individuo.estaVivo);
 
-    if (isAllDead) {
-      //ciclamos
+    if (todosMortos) {
       console.log("ciclo")
-      points = 0;
-      document.getElementById("points")!.innerText = (points).toString();
-      cycles++;
-      reset();
+      pontos = 0;
+      document.getElementById("pontos")!.innerText = (pontos).toString();
+      ciclos++;
+      reiniciar();
 
-      // limpar: todo: tem jeito melhor
-      population
-        .filter((individual) => individual.isAlive)
-        .forEach((individual) => removeIndividual(individual));
+      populacao
+        .filter((individuo) => individuo.estaVivo)
+        .forEach((individuo) => removerIndividuo(individuo));
 
-      population = getNewPopulation();
+      populacao = novaPopulacao();
     }
   }
 
-  function getRandomInt(min: number, max: number) {
-    min = Math.ceil(min); // Ensure min is an integer
-    max = Math.floor(max); // Ensure max is an integer
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-  }
+  function novaPopulacao() {
+    const ordenados = populacao.toSorted((a, b) => obterFitness(b) - obterFitness(a));
 
-  function getNewPopulation() {
-    const sorted = population.toSorted((a, b) => getFitness(b) - getFitness(a));
+    const maisAptos = Math.floor(TAMANHO_POPULACAO * 0.1);
 
-    const fittests = Math.floor(POPULATION_SIZE * 0.1);
+    const novaPopulacao = [];
 
-    const newPopulation = [];
+    Array.from({ length: maisAptos }).forEach((_, index) => novaPopulacao.push(criarIndividuo(ordenados[index].genes)));
 
-    Array.from({ length: fittests }).forEach((_, index) => newPopulation.push(createIndividual(sorted[index].genes)));
+    for (let i = 0; i < TAMANHO_POPULACAO - maisAptos; i++) {
+      const r1 = obterAleatorio(0, Math.floor(TAMANHO_POPULACAO * 0.5));
+      const ind1 = ordenados[r1];
 
-    for (let i = 0; i < POPULATION_SIZE - fittests; i++) {
-      const r1 = getRandomInt(0, Math.floor(POPULATION_SIZE * 0.5));
-      const ind1 = sorted[r1];
+      const r2 = obterAleatorio(0, Math.floor(TAMANHO_POPULACAO * 0.5));
+      const ind2 = ordenados[r2];
 
-      const r2 = getRandomInt(0, Math.floor(POPULATION_SIZE * 0.5));
-      const ind2 = sorted[r2];
+      const novosGenes = cruzar(ind1, ind2);
 
-      //mate
-      const newGenes = mate(ind1, ind2);
-
-      newPopulation.push(createIndividual(newGenes));
+      novaPopulacao.push(criarIndividuo(novosGenes));
     }
 
-    return newPopulation;
+    return novaPopulacao;
   }
 
-  function mate(individual1: Individual, individual2: Individual): number[] {
-    const newGenes = [];
+  function cruzar(individuo1: Individuo, individuo2: Individuo): number[] {
+    const novosGenes = [];
 
     for (let i = 0; i < 4; i++) {
       let p = Math.random();
-      if (p < 0.45) newGenes.push(individual1.genes[i]);
-      else if (p < 0.9) newGenes.push(individual2.genes[i]);
-      else newGenes.push(getRandomArbitrary(-1, 1));
+      if (p < 0.45) novosGenes.push(individuo1.genes[i]);
+      else if (p < 0.9) novosGenes.push(individuo2.genes[i]);
+      else novosGenes.push(obterAleatorio(-1, 1));
     }
 
-    return newGenes;
+    return novosGenes;
   }
 
-  function reset() {
-    const rh = getRandomInt(125, 375);
+  function reiniciar() {
+    const alturaAleatoria = obterAleatorio(125, 375);
 
-    Body.setPosition(top, { y: rh + 300, x: 525 });
-    Body.setPosition(bot, { y: rh - 300, x: 525 });
+    Body.setPosition(canoSuperior, { y: alturaAleatoria + 300, x: 525 });
+    Body.setPosition(canoInferior, { y: alturaAleatoria - 300, x: 525 });
 
-    Body.setVelocity(top, { x: 0, y: 0 });
-    Body.setVelocity(bot, { x: 0, y: 0 });
+    Body.setVelocity(canoSuperior, { x: 0, y: 0 });
+    Body.setVelocity(canoInferior, { x: 0, y: 0 });
   }
 
-  function jump(body: Matter.Body) {
-    Body.setVelocity(body, { x: body.velocity.x, y: -4 * SCALE });
+  function pular(corpo: Matter.Body) {
+    Body.setVelocity(corpo, { x: corpo.velocity.x, y: -4 * ESCALA });
   }
 
-  function getRandomArbitrary(min: number, max: number) {
+  function obterAleatorio(min: number, max: number) {
     return Math.random() * (max - min) + min;
   }
 
-  function individualShouldJump(individual: Individual) {
-    const pipeDistance = top.position.x;
-    const pipeY = top.position.y + 300;
-    const birdVelocity = individual.body.velocity.y;
-    const birdY = individual.body.position.y;
+  function individuoDevePular(individuo: Individuo) {
+    const distanciaCano = canoSuperior.position.x;
+    const canoY = canoSuperior.position.y + 300;
+    const velocidadePassaro = individuo.corpo.velocity.y;
+    const passaroY = individuo.corpo.position.y;
 
-    if (population.findIndex(indi => indi === individual) === 0) {
-      document.getElementById("pipeDistance")!.innerText = pipeDistance.toString();
-      document.getElementById("pipeY")!.innerText = pipeY.toString();
-      document.getElementById("birdVelocity")!.innerText = birdVelocity.toString();
-      document.getElementById("birdY")!.innerText = birdY.toString();
-      document.getElementById("time")!.innerText = individual.time.toString();
+    if (populacao.findIndex(indi => indi === individuo) === 0) {
+      document.getElementById("distanciaCano")!.innerText = distanciaCano.toString();
+      document.getElementById("canoY")!.innerText = canoY.toString();
+      document.getElementById("velocidadePassaro")!.innerText = velocidadePassaro.toString();
+      document.getElementById("passaroY")!.innerText = passaroY.toString();
+      document.getElementById("tempo")!.innerText = individuo.tempo.toString();
     }
 
-    const shouldJump = calculateJump({
-      pipeDistance,
-      pipeY,
-      birdVelocity,
-      birdY,
-      weights: individual.genes,
+    const devePular = calcularPulo({
+      distanciaCano,
+      canoY,
+      velocidadePassaro,
+      passaroY,
+      pesos: individuo.genes,
     });
 
-    return shouldJump;
+    return devePular;
   }
 
-  function calculateJump({
-    pipeDistance,
-    pipeY,
-    birdVelocity,
-    birdY,
-    weights,
-  }: NetInput) {
-    const inputs = [pipeDistance, pipeY, birdVelocity, birdY];
+  function calcularPulo({
+    distanciaCano,
+    canoY,
+    velocidadePassaro,
+    passaroY,
+    pesos,
+  }: EntradaRede) {
+    const entradas = [distanciaCano, canoY, velocidadePassaro, passaroY];
 
-    const sum = inputs.reduce(
-      (acc, input, index) => acc + input * weights[index],
+    const soma = entradas.reduce(
+      (acc, entrada, index) => acc + entrada * pesos[index],
       0
     );
 
-    return sum >= 0;
+    return soma >= 0;
   }
 
-  function createIndividual(genes1?: number[]): Individual {
-    const body = Bodies.rectangle(50, 50, 50, 50, {
+  function criarIndividuo(genes1?: number[]): Individuo {
+    const corpo = Bodies.rectangle(50, 50, 50, 50, {
       inertia: Infinity,
-      collisionFilter: { category: playerCategory, group: -1 },
-      label: "individual",
+      collisionFilter: { category: categoriaJogador, group: -1 },
+      label: "individuo",
       render: {
         sprite: {
-          texture: './assets/bird.png', // Example image URL
+          texture: './assets/passaro.png',
           xScale: 1,
           yScale: 1
         }
       }
     });
 
-    Composite.add(engine.world, [body]);
+    Composite.add(motor.world, [corpo]);
 
     const genes = [];
 
-    genes.push(getRandomArbitrary(-1, 1));
-    genes.push(getRandomArbitrary(-1, 1));
-    genes.push(getRandomArbitrary(-1, 1));
-    genes.push(getRandomArbitrary(-1, 1));
+    genes.push(obterAleatorio(-1, 1));
+    genes.push(obterAleatorio(-1, 1));
+    genes.push(obterAleatorio(-1, 1));
+    genes.push(obterAleatorio(-1, 1));
 
-    const individual = { body, genes: genes1 || genes, time: 0, isAlive: true };
+    const individuo = { corpo, genes: genes1 || genes, tempo: 0, estaVivo: true };
 
-    population.push(individual);
+    populacao.push(individuo);
 
-    return individual;
+    return individuo;
   }
 
-  function getFitness(individual: Individual) {
-    return individual.time - TRAINNING_TIME;
+  function obterFitness(individuo: Individuo) {
+    return individuo.tempo - TEMPO_TREINAMENTO;
   }
 
-  function removeIndividual(individual: Individual) {
-    individual.isAlive = false;
+  function removerIndividuo(individuo: Individuo) {
+    individuo.estaVivo = false;
 
-    Composite.remove(engine.world, [individual.body]);
+    Composite.remove(motor.world, [individuo.corpo]);
   }
 
   return () => {
-    Engine.clear(engine);
-    Render.stop(render);
-    Runner.stop(runner);
-    render.canvas.remove();
-    render.textures = {};
+    Engine.clear(motor);
+    Render.stop(renderizador);
+    Runner.stop(executor);
+    renderizador.canvas.remove();
+    renderizador.textures = {};
   }
 }
