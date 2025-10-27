@@ -1,4 +1,3 @@
-/* Reset e fonte */
 body {
     margin: 0;
     font-family: "Poppins", sans-serif;
@@ -7,7 +6,6 @@ body {
     min-height: 100vh;
 }
 
-/* Layout principal */
 .page-container {
     min-height: 100vh;
     display: flex;
@@ -26,7 +24,6 @@ body {
     animation: fadeIn 0.5s ease-in;
 }
 
-/* Cabeçalho */
 .header {
     border-bottom: 1px solid #333;
     padding-bottom: 1rem;
@@ -38,7 +35,6 @@ body {
     font-size: 2rem;
     font-weight: 700;
     color: #00b4ff;
-    /* azul destaque */
     margin-bottom: 0.5rem;
 }
 
@@ -47,7 +43,6 @@ body {
     font-size: 0.95rem;
 }
 
-/* Seções */
 .section {
     margin-bottom: 2rem;
 }
@@ -56,7 +51,6 @@ body {
     font-size: 1.5rem;
     font-weight: 600;
     color: #00b4ff;
-    /* azul destaque */
     margin-bottom: 0.5rem;
 }
 
@@ -90,7 +84,6 @@ body {
     box-shadow: inset 0 0 5px rgba(255, 255, 255, 0.1);
 }
 
-/* Botão de download */
 .download-section {
     text-align: center;
     margin-top: 2rem;
@@ -99,15 +92,14 @@ body {
 .download-button {
     display: inline-block;
     background-color: #00b4ff;
-    /* azul destaque */
     color: #121212;
-    /* texto escuro para contraste */
     padding: 0.75rem 1.5rem;
     border-radius: 8px;
     text-decoration: none;
     font-weight: 500;
     font-size: 1rem;
     transition: all 0.3s ease;
+    margin-top: 1rem;
 }
 
 .download-button:hover {
@@ -117,7 +109,6 @@ body {
     transform: translateY(-2px);
 }
 
-/* Rodapé */
 .footer {
     border-top: 1px solid #333;
     margin-top: 2rem;
@@ -125,6 +116,56 @@ body {
     text-align: center;
     font-size: 0.85rem;
     color: #888;
+}
+
+.section ul,
+.section ol {
+    padding-left: 1.8rem;
+    margin-top: 0.8rem;
+    list-style: none;
+}
+
+.section li {
+    position: relative;
+    color: #ccc;
+    line-height: 1.7;
+    font-size: 1rem;
+    margin-bottom: 0.6rem;
+    padding-left: 1.2rem;
+    transition: all 0.3s ease;
+}
+
+.section ul li::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    color: #00b4ff;
+    font-weight: bold;
+    font-size: 1.2rem;
+    line-height: 1;
+    top: 0;
+}
+
+.section li:hover {
+    color: #fff;
+    transform: translateX(4px);
+}
+
+.section ol li {
+    counter-increment: list-counter;
+}
+
+.section ol {
+    counter-reset: list-counter;
+}
+
+.section ol li::before {
+    content: counter(list-counter) ".";
+    position: absolute;
+    left: 0;
+    color: #00b4ff;
+    font-weight: 600;
+    top: 0;
 }
 
 /* Animação */
