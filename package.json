@@ -23,6 +23,7 @@
     "pokenode-ts": "^1.20.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
+    "react-lowlight": "^3.1.0",
     "react-router": "^7.7.1"
   },
   "devDependencies": {
