@@ -4,5 +4,5 @@ export default [
     index("routes/Home.tsx"),
     route("pythonFlappyBird", "games/PythonFlappyBird.tsx"),
     route("game", "games/Game.tsx"),
-    route("/games/pong-game-js", "games/pong-game-js/Page.tsx")
+    route("/games/pong-game-js", "games/pong-game-js/page.tsx")
 ] satisfies RouteConfig;
