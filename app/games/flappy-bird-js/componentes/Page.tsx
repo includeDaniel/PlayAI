@@ -20,7 +20,7 @@ const renderer = {
 
 export default function Jogo() {
   return (
-    <div className="bg-amber-50 min-h-screen py-8">
+    <div className="bg-amber-50 min-h-screen py-8 mx-0">
       <div className="flex flex-row justify-center mb-8">
         <img src={logo} alt="logo" width={300} />
       </div>
