@@ -2,6 +2,8 @@ import type { Route } from "./+types/Home";
 import { Link } from "react-router";
 import "./Home.css";
 
+import flappyBird from "../games/flappy-bird-js/assets/blue-bird.png";
+
 export function meta({}: Route.MetaArgs) {
     return [
         { title: "GameHub - Jogos com Inteligência Artificial" },
@@ -43,6 +45,12 @@ const games: GameLink[] = [
         description: "Jogue Pong contra uma IA desafiadora!",
         image: "app/games/pong-game-js/pong-icon.png",
         url: "/games/pong-game-js",
+    },
+        {
+        name: "Flappy Bird",
+        description: "Um agente de Flappy Bird usando Perceptron e Algoritmo Genético",
+        image: flappyBird,
+        url: "/games/flappy-bird-js",
     },
 ];
 
