@@ -1,0 +1,108 @@
+body {
+    margin: 0;
+    font-family: "Poppins", sans-serif;
+    background: radial-gradient(circle at top, #121212, #000);
+    color: #fff;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.landing-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 2rem;
+    max-width: 1000px;
+    width: 100%;
+}
+
+.hero {
+    margin-bottom: 2rem;
+}
+
+/* ✅ Removido o neon do título */
+.title {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: #00b4ff;
+    text-shadow: none;
+}
+
+.subtitle {
+    font-size: 1.2rem;
+    color: #ccc;
+}
+
+.games-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+    width: 100%;
+    max-width: 900px;
+}
+
+.game-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 1.5rem;
+    text-decoration: none;
+    color: white;
+    transition: all 0.25s ease;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+/* Efeito hover mantido */
+.game-card:hover {
+    transform: translateY(-5px) scale(1.03);
+    background: rgba(0, 180, 255, 0.1);
+    box-shadow: 0 0 20px #00b4ff88;
+}
+
+/* ✅ Centraliza imagem dentro do card */
+.image-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+    margin-bottom: 1rem;
+}
+
+.game-image {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+}
+
+.footer {
+    margin-top: 3rem;
+    font-size: 0.9rem;
+    color: #888;
+}
+
+.game-page {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    text-align: center;
+    padding: 3rem;
+    color: white;
+}
+
+.back-link {
+    display: inline-block;
+    margin-top: 1.5rem;
+    color: #00b4ff;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.back-link:hover {
+    text-decoration: underline;
+}
