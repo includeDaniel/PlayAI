@@ -5,5 +5,6 @@ export default [
     route("pythonFlappyBird", "games/PythonFlappyBird.tsx"),
     route("/games/pokemon", "games/pokemon/PokemonBattleAI.tsx"),
     route("/games/physics", "games/Game.tsx"),
-    route("/games/pong-game-js", "games/pong-game-js/page.tsx")
+    route("/games/pong-game-js", "games/pong-game-js/page.tsx"),
+    route("/games/flappy-bird-js", "games/flappy-bird-js/componentes/Page.tsx")
 ] satisfies RouteConfig;
