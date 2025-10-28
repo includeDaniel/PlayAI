@@ -1,10 +1,19 @@
-import { Link } from "react-router-dom";
+import type { Route } from "./+types/Home";
+import { Link } from "react-router";
 import "./Home.css";
+
+export function meta({}: Route.MetaArgs) {
+    return [
+        { title: "GameHub - Jogos com Inteligência Artificial" },
+        { name: "description", content: "Combinando Jogos com Inteligência Artificial" },
+    ];
+}
 
 type GameLink = {
     name: string;
     description: string;
     image: string;
+    icon?: string;  // Emoji fallback quando não houver imagem
     url: string;
 };
 
@@ -17,10 +26,17 @@ const games: GameLink[] = [
         url: "/pythonFlappyBird",
     },
     {
+        name: "Pokemon Battle AI",
+        description: "Monte seu time e enfrente uma IA que evolui suas estratégias!",
+        image: "/Pokemon/PokemonIcon.svg",
+        url: "/games/pokemon",
+    },
+    {
         name: "Physics Sandbox",
         description: "Experimente a física com bolas e colisões!",
         image: "",
-        url: "/game",
+        icon: "🌟",
+        url: "/games/physics",
     },
     {
         name: "Pong AI",
@@ -43,7 +59,11 @@ export default function Home() {
                 {games.map((game) => (
                     <Link key={game.name} to={game.url} className="game-card">
                         <div className="image-container">
-                            <img src={game.image} alt={game.name} className="game-image" />
+                            {game.image ? (
+                                <img src={game.image} alt={game.name} className="game-image" />
+                            ) : (
+                                <div className="placeholder-icon">{game.icon || "🎮"}</div>
+                            )}
                         </div>
                         <h2>{game.name}</h2>
                         <p>{game.description}</p>
