@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useCallback, useMemo } from 'react';
+import { useState, useCallback, useMemo } from 'react';
 import { PokemonClient } from 'pokenode-ts';
 import type { Pokemon as PokeNodePokemon } from 'pokenode-ts';
 import { usePokemonData } from './hooks/usePokemonData';

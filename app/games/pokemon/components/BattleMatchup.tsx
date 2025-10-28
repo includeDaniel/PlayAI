@@ -1,4 +1,3 @@
-import React from 'react';
 import type { IndividualBattle } from '../types/pokemon';
 
 interface BattleMatchupProps {

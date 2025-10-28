@@ -13,6 +13,7 @@ type GameLink = {
     name: string;
     description: string;
     image: string;
+    icon?: string;  // Emoji fallback quando não houver imagem
     url: string;
 };
 
@@ -34,12 +35,14 @@ const games: GameLink[] = [
         name: "Physics Sandbox",
         description: "Experimente a física com bolas e colisões!",
         image: "",
+        icon: "🌟",
         url: "/games/physics",
     },
     {
         name: "Pong AI",
         description: "Jogue Pong contra uma IA desafiadora!",
         image: "",
+        icon: "�",
         url: "/games/pong-game-js",
     },
 ];
@@ -60,7 +63,7 @@ export default function Home() {
                             {game.image ? (
                                 <img src={game.image} alt={game.name} className="game-image" />
                             ) : (
-                                <div className="placeholder-icon">🎮</div>
+                                <div className="placeholder-icon">{game.icon || "🎮"}</div>
                             )}
                         </div>
                         <h2>{game.name}</h2>

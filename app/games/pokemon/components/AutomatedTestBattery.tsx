@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import type { BattleResult } from '../types/pokemon';
 
 interface TestResult {

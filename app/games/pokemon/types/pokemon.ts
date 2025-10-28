@@ -30,19 +30,6 @@ export interface Pokemon {
     weight: number;
 }
 
-export interface PokemonAPIResponse {
-    results: Array<{
-        name: string;
-        url: string;
-    }>;
-    next: string | null;
-    previous: string | null;
-}
-
-export interface TypeColors {
-    [key: string]: string;
-}
-
 export interface TeamAnalysis {
     weaknesses: string[];
     resistances: string[];
@@ -68,18 +55,6 @@ export interface BattleResult {
     battles: IndividualBattle[];
     playerScore: number;
     aiScore: number;
-}
-
-export interface AILearningData {
-    totalBattles: number;
-    wins: number;
-    losses: number;
-    draws: number;
-    successfulStrategies: {
-        typeMatchups: { [key: string]: number };
-        effectiveTeamCompositions: string[];
-    };
-    learningRate: number;
 }
 
 export type ViewType = 'menu' | 'setup' | 'analysis' | 'battle' | 'automated-tests';
