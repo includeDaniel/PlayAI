@@ -1,11 +1,14 @@
+/* === Reset e Fonte === */
 body {
     margin: 0;
     font-family: "Poppins", sans-serif;
     background-color: #121212;
     color: #e0e0e0;
     min-height: 100vh;
+    overflow-x: hidden;
 }
 
+/* === Layout Principal === */
 .page-container {
     min-height: 100vh;
     display: flex;
@@ -24,25 +27,78 @@ body {
     animation: fadeIn 0.5s ease-in;
 }
 
+/* === Cabeçalho === */
 .header {
     border-bottom: 1px solid #333;
     padding-bottom: 1rem;
     margin-bottom: 2rem;
-    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
 }
 
 .header h1 {
     font-size: 2rem;
     font-weight: 700;
     color: #00b4ff;
-    margin-bottom: 0.5rem;
+    margin: 0 0 1rem 0;
+    text-align: center;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    width: 100%;
 }
 
 .header p {
     color: #aaa;
-    font-size: 0.95rem;
+    font-size: 1.2rem;
+    line-height: 1.6;
 }
 
+/* === Header flex com vídeo à esquerda e texto à direita === */
+.header-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.text-content {
+    flex: 1 1 60%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    text-align: left;
+}
+
+.small-video {
+    flex: 0 0 35%;
+    text-align: left;
+}
+
+.small-video video {
+    width: 100%;
+    max-width: 250px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+    transition: transform 0.3s ease;
+}
+
+.small-video video:hover {
+    transform: scale(1.05);
+}
+
+.small-video .caption {
+    font-size: 0.8rem;
+    color: #999;
+    text-align: left;
+    margin-top: 0.4rem;
+    font-style: italic;
+}
+
+/* === Seções === */
 .section {
     margin-bottom: 2rem;
 }
@@ -73,6 +129,7 @@ body {
     margin-top: 0.5rem;
 }
 
+/* === Código === */
 .section pre {
     background-color: #2a2a2a;
     border-radius: 8px;
@@ -84,6 +141,7 @@ body {
     box-shadow: inset 0 0 5px rgba(255, 255, 255, 0.1);
 }
 
+/* === Download Section === */
 .download-section {
     text-align: center;
     margin-top: 2rem;
@@ -103,12 +161,12 @@ body {
 }
 
 .download-button:hover {
-    background-color: #009Afc;
-    color: #f0f0f0f0;
-
+    background-color: #009afc;
+    color: #f0f0f0;
     transform: translateY(-2px);
 }
 
+/* === Rodapé === */
 .footer {
     border-top: 1px solid #333;
     margin-top: 2rem;
@@ -118,6 +176,7 @@ body {
     color: #888;
 }
 
+/* === Listas Estilizadas === */
 .section ul,
 .section ol {
     padding-left: 1.8rem;
@@ -168,7 +227,77 @@ body {
     top: 0;
 }
 
-/* Animação */
+/* === Imagens === */
+.media-box.flex-image-right {
+    display: grid;
+    grid-template-columns: 60% 30%;
+    align-items: center;
+    gap: 1.5rem;
+    margin: 1.5rem 0;
+}
+
+.media-text {
+    text-align: left;
+    display: flex;
+    align-items: center;
+    min-height: 100px;
+    padding: 0 0.5rem;
+}
+
+.media-img {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    min-width: 120px;
+}
+
+.media-img img {
+    width: 100%;
+    max-width: 320px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+    transition: transform 0.3s ease;
+}
+
+.media-img img:hover {
+    transform: scale(1.02);
+}
+
+.media-img .caption {
+    font-size: 0.9rem;
+    color: #aaa;
+    margin-top: 0.4rem;
+    font-style: italic;
+    text-align: right;
+}
+
+/* === Figure-specific sizing adjustments === */
+.media-img.figure-3 img {
+    max-width: 420px;
+}
+
+.media-img.figure-6 img {
+    max-width: 520px;
+}
+
+.media-box {
+    text-align: center;
+    margin: 1.5rem 0;
+}
+
+.media-box img {
+    width: 90%;
+    max-width: 700px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+    transition: transform 0.3s ease;
+}
+
+.media-box img:hover {
+    transform: scale(1.02);
+}
+
+/* === Animação === */
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -179,4 +308,99 @@ body {
         opacity: 1;
         transform: translateY(0);
     }
+}
+
+/* === Responsividade === */
+@media (max-width: 900px) {
+    .media-box.flex-image-right {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .media-img img {
+        max-width: 220px;
+    }
+
+    .media-img.figure-3 img {
+        max-width: 300px;
+    }
+
+    .media-img.figure-6 img {
+        max-width: 360px;
+    }
+}
+
+@media (max-width: 750px) {
+    .header-content {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .small-video {
+        text-align: center;
+        margin-bottom: 1rem;
+        flex: 1 1 100%;
+    }
+
+    .text-content {
+        flex: 1 1 100%;
+        text-align: center;
+    }
+
+    .media-box.flex-image-right {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .media-text,
+    .text-content {
+        text-align: center;
+        width: 100%;
+        min-height: auto;
+        padding: 0 0.5rem;
+    }
+
+    .media-img {
+        align-items: center;
+        width: 100%;
+    }
+
+    .media-img img {
+        max-width: 90vw;
+    }
+
+    .media-img .caption {
+        text-align: center;
+    }
+
+    .small-video video {
+        max-width: 250px;
+    }
+
+    .header h1 {
+        font-size: clamp(1.1rem, 4.5vw, 1.6rem);
+    }
+}
+
+.back-button {
+    position: fixed;
+    top: 20px;
+    left: 50px;
+    z-index: 9999;
+    padding: 0.5rem 0.8rem;
+    border-radius: 8px;
+    background: rgba(0, 180, 255, 0.08);
+    border: 1px solid rgba(0, 180, 255, 0.12);
+    color: #00b4ff;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.back-button:hover {
+    background: rgba(0, 180, 255, 0.15);
+    transform: translateY(-2px);
 }
