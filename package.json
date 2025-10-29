@@ -24,7 +24,8 @@
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-lowlight": "^3.1.0",
-    "react-router": "^7.7.1"
+    "react-router": "^7.9.5",
+    "react-router-dom": "^7.9.5"
   },
   "devDependencies": {
     "@react-router/dev": "^7.7.1",
