@@ -1,4 +1,5 @@
 import type { JSX } from "react";
+import { Link } from "react-router-dom";
 import "./PythonFlappyBird.css";
 
 export default function PythonFlappyBird(): JSX.Element {
@@ -7,12 +8,32 @@ export default function PythonFlappyBird(): JSX.Element {
             <main className="main-content">
                 {/* Cabeçalho */}
                 <header className="header">
-                    <h1>Como funciona a IA que aprende a jogar Flappy Bird</h1>
-                    <p>
-                        Neste projeto, demonstramos como uma inteligência artificial aprende a jogar Flappy Bird utilizando <strong>redes neurais</strong> combinadas com <strong>algoritmos evolutivos (NEAT)</strong>.
-                        Durante várias gerações, os pássaros virtuais aprendem a saltar na hora certa, evitando obstáculos, até que se tornem capazes de voar por longos períodos sem colidir.
-                        Todo o processo envolve evolução progressiva, seleção natural simulada e adaptação baseada em desempenho.
-                    </p>
+                    <div className="header-top">
+                        <Link to="/" className="back-button" aria-label="Voltar para a página inicial">← Voltar</Link>
+                        <h1>Como funciona a IA que aprende a jogar Flappy Bird</h1>
+                    </div>
+                    <div className="header-content">
+                        <div className="text-content">
+                            <div>
+                                <p>
+                                    Neste projeto, demonstramos como uma inteligência artificial aprende a jogar Flappy Bird utilizando
+                                    <strong> redes neurais </strong> combinadas com
+                                    <strong> algoritmos evolutivos (NEAT)</strong>.
+                                </p>
+                                <p>
+                                    Durante várias gerações, os pássaros virtuais aprendem a saltar na hora certa, evitando obstáculos,
+                                    até que se tornem capazes de voar por longos períodos sem colidir.
+                                    Todo o processo envolve evolução progressiva, seleção natural simulada e adaptação baseada em desempenho.
+                                </p>
+                            </div>
+
+                        </div>
+
+                        <div className="media-box small-video">
+                            <video src="/PythonFlappyBird/flappy-bird-py-gif.mp4" autoPlay muted loop></video>
+                            <p className="caption">Vídeo — Comunicação entre o jogo e o algoritmo NEAT.</p>
+                        </div>
+                    </div>
                 </header>
 
                 {/* 1. Estrutura geral do sistema */}
@@ -81,6 +102,17 @@ export default function PythonFlappyBird(): JSX.Element {
                     <p>
                         A rede neural processa esses valores e gera uma saída, que determina se o pássaro deve pular. Com a evolução, a IA aprende padrões complexos, antecipando obstáculos e reagindo rapidamente a mudanças de altura.
                     </p>
+                    <div className="media-box flex-image-right">
+                        <div className="media-text">
+                            <p>
+                                A rede neural processa esses valores e gera uma saída, que determina se o pássaro deve pular. Com a evolução, a IA aprende padrões complexos, antecipando obstáculos e reagindo rapidamente a mudanças de altura.
+                            </p>
+                        </div>
+                        <div className="media-img">
+                            <img src="/PythonFlappyBird/input.png" alt="Diagrama ilustrando os três inputs usados pela rede (altura do pássaro e distâncias superior e inferior do cano)." />
+                            <p className="caption">Figura 2 — Diagrama dos três inputs usados pela rede neural (altura do pássaro e distâncias ao cano).</p>
+                        </div>
+                    </div>
                 </section>
 
                 {/* 3. Estrutura da Rede Neural */}
@@ -105,7 +137,7 @@ export default function PythonFlappyBird(): JSX.Element {
 
                     <h3>Como a decisão é calculada:</h3>
                     <p>
-                        Cada input é multiplicado por seu peso correspondente, somado a um bias e processado por uma função de ativação (<code>tanh</code>). O resultado contínuo é convertido em ação:
+                        Cada input é multiplicado por seu peso correspondente, somado a um bias e processado por uma função de ativação (<code>tanh</code>). Sem o bias, a saída seria sempre zero se todas as entradas forem zero (dependendo da função de ativação). O bias desloca a função para cima ou para baixo, dando mais flexibilidade à rede para aprender padrões. O resultado contínuo é convertido em ação:
                     </p>
                     <pre>
                         {`input_y = 30
@@ -126,6 +158,25 @@ Se output ≤ 0.5 → NÃO PULA`}
                     <p>
                         Resumindo, a rede neural transforma informações do ambiente em decisões concretas (pular ou não) e sua estrutura evolui automaticamente para melhorar a performance da IA ao longo do tempo.
                     </p>
+                    <div className="media-box flex-image-right">
+                        <div className="media-text">
+                            <p>
+                                O NEAT permite que a topologia da rede evolua: adicionar ou remover nós e conexões, ajustando pesos e biases para aumentar a eficiência e maximizar a pontuação.
+                                Resumindo, a rede neural transforma informações do ambiente em decisões concretas (pular ou não) e sua estrutura evolui automaticamente para melhorar a performance da IA ao longo do tempo.
+                            </p>
+                        </div>
+                    </div>
+                    <div className="media-box flex-image-right">
+                        <div className="media-text">
+                            <p>
+                                Exemplo visual do algoritmo NEAT em ação, mostrando a evolução das conexões e nós ao longo das gerações.
+                            </p>
+                        </div>
+                        <div className="media-img figure-3">
+                            <img src="/PythonFlappyBird/neat.jpg" alt="Exemplo de evolução de topologia de rede pelo NEAT, mostrando nós e conexões sendo alterados ao longo das gerações." style={{ width: "280px" }} />
+                            <p className="caption">Figura 3 — Exemplo da evolução da topologia de redes com NEAT (nós e conexões).</p>
+                        </div>
+                    </div>
                 </section>
 
                 {/* 4. Algoritmo Evolutivo (NEAT) */}
@@ -175,6 +226,17 @@ Se output ≤ 0.5 → NÃO PULA`}
                     <p>
                         No código, classes como <code>Population</code>, <code>Genome</code> e o método <code>pop.run(main, 100)</code> controlam o processo, executando o jogo por 100 gerações ou até atingir fitness máximo.
                     </p>
+                    <div className="media-box flex-image-right">
+                        <div className="media-text">
+                            <p>
+                                Ilustração do processo de seleção natural no NEAT, onde apenas os melhores indivíduos passam seus genes para a próxima geração.
+                            </p>
+                        </div>
+                        <div className="media-img">
+                            <img src="/PythonFlappyBird/selection.png" alt="Ilustração do processo de seleção no NEAT mostrando indivíduos escolhidos para reprodução com base no fitness." />
+                            <p className="caption">Figura 4 — Processo de seleção no NEAT (indivíduos selecionados para reprodução).</p>
+                        </div>
+                    </div>
                 </section>
 
                 {/* 5. Comparação entre RNA e Algoritmo Genético */}
@@ -217,6 +279,18 @@ Se output ≤ 0.5 → NÃO PULA`}
                     <p>
                         Em resumo, a rede neural determina o comportamento do pássaro, enquanto o NEAT seleciona, mistura e evolui essas redes, permitindo aprendizado contínuo e estratégias cada vez mais eficientes.
                     </p>
+
+                    <div className="media-box flex-image-right">
+                        <div className="media-text">
+                            <p>
+                                Resultado final: IA dominando o jogo após várias gerações, atingindo alta pontuação e desempenho consistente.
+                            </p>
+                        </div>
+                        <div className="media-img">
+                            <img src="/PythonFlappyBird/highScore.png" alt="Gráfico mostrando a IA alcançando alta pontuação após várias gerações de treinamento." />
+                            <p className="caption">Figura 5 — Resultado final: IA dominando o jogo após várias gerações.</p>
+                        </div>
+                    </div>
                 </section>
 
                 {/* 6. Download e execução */}
@@ -256,7 +330,6 @@ venv\\Scripts\\activate   # Windows`}
                             <strong>Estrutura mínima do projeto:</strong>
                             <pre>
                                 {`/assets
-/config
 /src
   └── /game
        └── FlappyBird.py
@@ -281,6 +354,17 @@ requirements.txt`}
                             <p>Esses dados permitem acompanhar a evolução da IA em tempo real.</p>
                         </li>
                     </ol>
+                    <div className="media-box flex-image-right">
+                        <div className="media-text" style={{ marginRight: "80px" }}>
+                            <p>
+                                Exemplo de logs e métricas exibidas durante a execução do treinamento, permitindo acompanhar a evolução da IA em tempo real.
+                            </p>
+                        </div>
+                        <div className="media-img figure-6">
+                            <img src="/PythonFlappyBird/logs.png" alt="Captura de tela de logs e métricas exibidas durante o treinamento (média de fitness, melhor da geração)." style={{ width: "350px" }} />
+                            <p className="caption">Figura 6 — Logs e métricas exibidas durante o treinamento (fitness, melhor da geração).</p>
+                        </div>
+                    </div>
                 </section>
 
                 <section className="section">
