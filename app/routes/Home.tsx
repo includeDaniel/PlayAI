@@ -25,20 +25,13 @@ const games: GameLink[] = [
         name: "Flappy Bird AI",
         description: "Uma IA em Python que aprende a jogar Flappy Bird sozinha!",
         image: "/PythonFlappyBird/FlappyBirdIcon.png",
-        url: "/pythonFlappyBird",
+        url: "/games/pythonFlappyBird",
     },
     {
         name: "Pokemon Battle AI",
         description: "Monte seu time e enfrente uma IA que evolui suas estratégias!",
         image: "/Pokemon/PokemonIcon.svg",
         url: "/games/pokemon",
-    },
-    {
-        name: "Physics Sandbox",
-        description: "Experimente a física com bolas e colisões!",
-        image: "",
-        icon: "🌟",
-        url: "/games/physics",
     },
     {
         name: "Pong AI",
