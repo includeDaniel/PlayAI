@@ -1166,6 +1166,145 @@ export default function Game() {
                         <h3 id="pac-rl-title">
                             Pac-Man (Aprendizado por Reforço)
                         </h3>
+                        {stateRef.current?.rl && (
+                            <div
+                                className="ai-live"
+                                aria-label="Métricas em tempo real do RL"
+                            >
+                                {(() => {
+                                    const gs = stateRef.current!;
+                                    const rl = gs.rl!;
+                                    const pelletsLeft = pelletsLeftRef.current;
+                                    // distância heurística (salva em runtime via campos auxiliares)
+                                    const lastPelletDist = (rl as any)
+                                        ._lastPelletDist;
+                                    const lastGhostMin = (rl as any)
+                                        ._lastGhostMinDist;
+                                    return (
+                                        <ul className="live-metrics">
+                                            <li>
+                                                <span className="k">
+                                                    Episódio
+                                                </span>
+                                                <span className="v">
+                                                    {rl.metrics.episode}
+                                                </span>
+                                            </li>
+                                            <li>
+                                                <span className="k">ε</span>
+                                                <span className="v">
+                                                    {rl.params.epsilon.toFixed(
+                                                        3
+                                                    )}
+                                                </span>
+                                            </li>
+                                            <li>
+                                                <span className="k">Steps</span>
+                                                <span className="v">
+                                                    {rl.metrics.steps}
+                                                </span>
+                                            </li>
+                                            <li>
+                                                <span className="k">
+                                                    Reward Tot
+                                                </span>
+                                                <span className="v">
+                                                    {rl.metrics.totalReward.toFixed(
+                                                        2
+                                                    )}
+                                                </span>
+                                            </li>
+                                            <li>
+                                                <span className="k">
+                                                    Reward Último
+                                                </span>
+                                                <span className="v">
+                                                    {rl.metrics.lastReward.toFixed(
+                                                        2
+                                                    )}
+                                                </span>
+                                            </li>
+                                            <li>
+                                                <span className="k">
+                                                    Reward Média (exp)
+                                                </span>
+                                                <span className="v">
+                                                    {rl.metrics.avgRewardWindow.toFixed(
+                                                        2
+                                                    )}
+                                                </span>
+                                            </li>
+                                            <li>
+                                                <span className="k">
+                                                    Pellets Rest.
+                                                </span>
+                                                <span className="v">
+                                                    {pelletsLeft}
+                                                </span>
+                                            </li>
+                                            <li>
+                                                <span className="k">
+                                                    Power Pellets
+                                                </span>
+                                                <span className="v">
+                                                    {gs.metrics
+                                                        ?.powerPelletsEaten ??
+                                                        0}
+                                                </span>
+                                            </li>
+                                            <li>
+                                                <span className="k">
+                                                    Pellets Colet.
+                                                </span>
+                                                <span className="v">
+                                                    {gs.metrics?.pelletsEaten ??
+                                                        0}
+                                                </span>
+                                            </li>
+                                            <li>
+                                                <span className="k">
+                                                    Fantasmas Comidos
+                                                </span>
+                                                <span className="v">
+                                                    {gs.metrics?.ghostsEaten ??
+                                                        0}
+                                                </span>
+                                            </li>
+                                            <li>
+                                                <span className="k">
+                                                    Mortes
+                                                </span>
+                                                <span className="v">
+                                                    {gs.metrics?.deaths ?? 0}
+                                                </span>
+                                            </li>
+                                            {typeof lastPelletDist ===
+                                                "number" && (
+                                                <li>
+                                                    <span className="k">
+                                                        Dist. Próx. Pellet
+                                                    </span>
+                                                    <span className="v">
+                                                        {lastPelletDist}
+                                                    </span>
+                                                </li>
+                                            )}
+                                            {typeof lastGhostMin ===
+                                                "number" && (
+                                                <li>
+                                                    <span className="k">
+                                                        Dist. Fantasma Min
+                                                    </span>
+                                                    <span className="v">
+                                                        {lastGhostMin}
+                                                    </span>
+                                                </li>
+                                            )}
+                                        </ul>
+                                    );
+                                })()}
+                            </div>
+                        )}
                         <ul className="ai-points">
                             <li>
                                 <strong>Algoritmo:</strong> Q-Learning tabular
@@ -1225,6 +1364,64 @@ export default function Game() {
                         <h3 id="ghost-ai-title">
                             Fantasmas (Personalidades & Modos)
                         </h3>
+                        {stateRef.current && (
+                            <div
+                                className="ai-live"
+                                aria-label="Estado atual dos fantasmas"
+                            >
+                                <ul className="ghost-status">
+                                    {stateRef.current.ghosts.map((g) => {
+                                        const brain =
+                                            stateRef.current!.ghostBrains?.[
+                                                g.name
+                                            ];
+                                        const pac = stateRef.current!.pacman;
+                                        const d =
+                                            Math.abs(g.cell.r - pac.cell.r) +
+                                            Math.abs(g.cell.c - pac.cell.c);
+                                        return (
+                                            <li
+                                                key={g.name}
+                                                className="ghost-line"
+                                            >
+                                                <span
+                                                    className="dot"
+                                                    style={{
+                                                        background: g.color,
+                                                    }}
+                                                    aria-hidden="true"
+                                                />
+                                                <span
+                                                    className="g-name"
+                                                    style={{ color: g.color }}
+                                                >
+                                                    {g.name}
+                                                </span>
+                                                <span className="g-mode">
+                                                    {brain?.mode}
+                                                </span>
+                                                <span className="g-dist">
+                                                    d={d}
+                                                </span>
+                                                <span className="g-cell">
+                                                    ({g.cell.r},{g.cell.c})
+                                                </span>
+                                                {g.eyesHome && (
+                                                    <span className="g-flag">
+                                                        eyes
+                                                    </span>
+                                                )}
+                                                {g.eaten && !g.eyesHome && (
+                                                    <span className="g-flag">
+                                                        eaten
+                                                    </span>
+                                                )}
+                                            </li>
+                                        );
+                                    })}
+                                </ul>
+                            </div>
+                        )}
                         <ul className="ai-points">
                             <li>
                                 <strong>Modos:</strong> scatter (cantinhos),
@@ -1237,21 +1434,43 @@ export default function Game() {
                                 frightened interrompe ciclo temporariamente.
                             </li>
                             <li>
-                                <strong>Blinky:</strong> mira diretamente o
-                                Pac-Man (pressão constante).
+                                <strong>
+                                    <span style={{ color: "#ff0000" }}>
+                                        Blinky
+                                    </span>
+                                    :
+                                </strong>{" "}
+                                mira diretamente o Pac-Man (pressão constante).
                             </li>
                             <li>
-                                <strong>Pinky:</strong> projeta 4+ células à
-                                frente da direção atual do Pac-Man.
+                                <strong>
+                                    <span style={{ color: "#ffb8ff" }}>
+                                        Pinky
+                                    </span>
+                                    :
+                                </strong>{" "}
+                                projeta 4+ células à frente da direção atual do
+                                Pac-Man.
                             </li>
                             <li>
-                                <strong>Inky:</strong> vetoriza combinação de
-                                posição projetada do Pac-Man e Blinky (efeito de
-                                cerco).
+                                <strong>
+                                    <span style={{ color: "#00ffff" }}>
+                                        Inky
+                                    </span>
+                                    :
+                                </strong>{" "}
+                                vetoriza combinação de posição projetada do
+                                Pac-Man e Blinky (efeito de cerco).
                             </li>
                             <li>
-                                <strong>Clyde:</strong> persegue se distante;
-                                recua ao canto se perto (&lt;=8 células).
+                                <strong>
+                                    <span style={{ color: "#ffb852" }}>
+                                        Clyde
+                                    </span>
+                                    :
+                                </strong>{" "}
+                                persegue se distante; recua ao canto se perto
+                                (&lt;=8 células).
                             </li>
                             <li>
                                 <strong>Frightened:</strong> movimento
