@@ -1,43 +1,45 @@
 {
-  "name": "playai",
-  "private": true,
-  "type": "module",
-  "scripts": {
-    "build": "react-router build",
-    "dev": "react-router dev",
-    "start": "react-router-serve ./build/server/index.js",
-    "typecheck": "react-router typegen && tsc"
-  },
-  "dependencies": {
-    "20": "^3.1.9",
-    "@pixi/react": "^8.0.3",
-    "@react-router/node": "^7.7.1",
-    "@react-router/serve": "^7.7.1",
-    "axios": "^1.12.2",
-    "axios-cache-interceptor": "^1.8.3",
-    "highlight.js": "^11.11.1",
-    "isbot": "^5.1.27",
-    "marked-react": "^3.0.2",
-    "matter-js": "^0.20.0",
-    "pixi.js": "^8.12.0",
-    "pokenode-ts": "^1.20.0",
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0",
-    "react-lowlight": "^3.1.0",
-    "react-router": "^7.9.5",
-    "react-router-dom": "^7.9.5"
-  },
-  "devDependencies": {
-    "@react-router/dev": "^7.7.1",
-    "@tailwindcss/typography": "^0.5.19",
-    "@tailwindcss/vite": "^4.1.4",
-    "@types/matter-js": "^0.20.0",
-    "@types/node": "^20",
-    "@types/react": "^19.1.2",
-    "@types/react-dom": "^19.1.2",
-    "tailwindcss": "^4.1.4",
-    "typescript": "^5.8.3",
-    "vite": "^6.3.3",
-    "vite-tsconfig-paths": "^5.1.4"
-  }
+    "name": "playai",
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "build": "react-router build",
+        "dev": "react-router dev",
+        "start": "react-router-serve ./build/server/index.js",
+        "typecheck": "react-router typegen && tsc"
+    },
+    "dependencies": {
+        "@pixi/react": "^8.0.3",
+        "@react-router/node": "^7.9.5",
+        "@react-router/serve": "^7.9.5",
+        "axios": "^1.12.2",
+        "axios-cache-interceptor": "^1.8.3",
+        "highlight.js": "^11.11.1",
+        "isbot": "^5.1.27",
+        "marked-react": "^3.0.2",
+        "matter-js": "^0.20.0",
+        "pixi.js": "^8.12.0",
+        "pokenode-ts": "^1.20.0",
+        "react": "^19.1.0",
+        "react-dom": "^19.1.0",
+        "react-lowlight": "^3.1.0",
+        "react-router": "^7.9.5",
+        "react-router-dom": "^7.9.5"
+    },
+    "devDependencies": {
+        "@react-router/dev": "^7.9.5",
+        "@tailwindcss/typography": "^0.5.19",
+        "@tailwindcss/vite": "^4.1.4",
+        "@types/matter-js": "^0.20.0",
+        "@types/node": "^20",
+        "@types/react": "^19.1.2",
+        "@types/react-dom": "^19.1.2",
+        "tailwindcss": "^4.1.4",
+        "typescript": "^5.8.3",
+        "vite": "^6.3.3",
+        "vite-tsconfig-paths": "^5.1.4"
+    },
+    "overrides": {
+        "p-map": "4.0.0"
+    }
 }
