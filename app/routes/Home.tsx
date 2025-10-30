@@ -3,6 +3,7 @@ import { Link } from "react-router";
 import "./Home.css";
 
 import flappyBird from "../games/flappy-bird-js/assets/blue-bird.png";
+import snakeIcon from "../games/snake-game/rato.png";
 
 export function meta({}: Route.MetaArgs) {
     return [
@@ -57,6 +58,13 @@ const games: GameLink[] = [
             "Jogue Pac Man com fantasmas controlados por IA ou veja um algoritmo de IA contra outros!",
         image: "/PacMan/Pacman.png",
         url: "/games/pacman",
+    },
+    {
+        name: "Snake AI",
+        description:
+            "Demonstração de Snake com planejamento de rotas A* e IA que encontra a maçã.",
+        image: snakeIcon,
+        url: "/games/snake-game",
     },
 ];
 
