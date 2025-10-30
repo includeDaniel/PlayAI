@@ -222,7 +222,8 @@ export default function Game() {
             const queue: Node[] = [start];
             const seen = new Set<string>([start.r + "," + start.c]);
             let iters = 0;
-            while (queue.length && iters < 1200) { // guarda de segurança
+            while (queue.length && iters < 1200) {
+                // guarda de segurança
                 const cur = queue.shift()!;
                 iters++;
                 const depth = cur.path.length;
@@ -253,18 +254,26 @@ export default function Game() {
             const rlAny = (s.rl as any) || {};
             rlAny._recentPositions = rlAny._recentPositions || [];
             rlAny._recentPositions.push(pac.cell.r + "," + pac.cell.c);
-            if (rlAny._recentPositions.length > 30) rlAny._recentPositions.shift();
-            const coords = rlAny._recentPositions.map((k: string) => k.split(",").map(Number));
-            let minR = Infinity, maxR = -Infinity, minC = Infinity, maxC = -Infinity;
+            if (rlAny._recentPositions.length > 30)
+                rlAny._recentPositions.shift();
+            const coords = rlAny._recentPositions.map((k: string) =>
+                k.split(",").map(Number)
+            );
+            let minR = Infinity,
+                maxR = -Infinity,
+                minC = Infinity,
+                maxC = -Infinity;
             for (const [r, c] of coords) {
-                if (r < minR) minR = r; if (r > maxR) maxR = r;
-                if (c < minC) minC = c; if (c > maxC) maxC = c;
+                if (r < minR) minR = r;
+                if (r > maxR) maxR = r;
+                if (c < minC) minC = c;
+                if (c > maxC) maxC = c;
             }
             const width = maxC - minC + 1;
             const height = maxR - minR + 1;
             const uniq = new Set(rlAny._recentPositions).size;
             // Pequena caixa e baixa diversidade => possível aprisionamento
-            return (width + height) <= 6 && uniq <= 0.6 * (width * height);
+            return width + height <= 6 && uniq <= 0.6 * (width * height);
         }
 
         // Atualiza fase da boca com velocidade constante (estilo clássico)
@@ -374,16 +383,21 @@ export default function Game() {
                             const key = nc.r + "," + nc.c;
                             const visits = rlAny._visitCounts[key] || 0;
                             // Peso maior para células nunca visitadas
-                            let score = (visits === 0 ? 12 : 5 - Math.min(visits, 5));
+                            let score =
+                                visits === 0 ? 12 : 5 - Math.min(visits, 5);
                             const tileCh = MAP[nc.r][nc.c];
-                            if (tileCh === ".") score += (visits === 0 ? 3.5 : 2);
-                            else if (tileCh === "o") score += (visits === 0 ? 6 : 4);
+                            if (tileCh === ".") score += visits === 0 ? 3.5 : 2;
+                            else if (tileCh === "o")
+                                score += visits === 0 ? 6 : 4;
                             // bônus leve se todas as adjacentes já visitadas (escassez local)
                             const adj = validDirs(nc);
                             let freshAdj = 0;
                             for (const ad of adj) {
                                 const ac = nextCell(nc, ad);
-                                if (!(rlAny._visitCounts[ac.r + "," + ac.c] > 0)) freshAdj++;
+                                if (
+                                    !(rlAny._visitCounts[ac.r + "," + ac.c] > 0)
+                                )
+                                    freshAdj++;
                             }
                             score += freshAdj * 0.4;
                             score += Math.random() * 0.05; // pequena aleatoriedade
@@ -412,11 +426,17 @@ export default function Game() {
                 if (s.rl) {
                     const dirsValid = validDirs(pac.cell);
                     const reverseDir = REVERSE[pac.dir];
-                    const usable = dirsValid.filter((d) => d !== reverseDir) || dirsValid;
+                    const usable =
+                        dirsValid.filter((d) => d !== reverseDir) || dirsValid;
                     const allVisited = usable.every((d) => {
                         const nc = nextCell(pac.cell, d);
                         const key = nc.r + "," + nc.c;
-                        return (rlAny._visitCounts && rlAny._visitCounts[key] > 0) && MAP[nc.r][nc.c] !== "." && MAP[nc.r][nc.c] !== "o";
+                        return (
+                            rlAny._visitCounts &&
+                            rlAny._visitCounts[key] > 0 &&
+                            MAP[nc.r][nc.c] !== "." &&
+                            MAP[nc.r][nc.c] !== "o"
+                        );
                     });
                     if (allVisited) {
                         const step = planPathToFreshPellet();
@@ -1139,6 +1159,165 @@ export default function Game() {
                 height={ROWS * TILE}
                 className={iaMode ? "ai-active" : undefined}
             />
+            <section className="ai-explain" aria-labelledby="ai-heading">
+                <h2 id="ai-heading">Inteligência Artificial – Visão Geral</h2>
+                <div className="ai-grid">
+                    <article className="ai-card" aria-labelledby="pac-rl-title">
+                        <h3 id="pac-rl-title">
+                            Pac-Man (Aprendizado por Reforço)
+                        </h3>
+                        <ul className="ai-points">
+                            <li>
+                                <strong>Algoritmo:</strong> Q-Learning tabular
+                                com política ε-greedy adaptativa.
+                            </li>
+                            <li>
+                                <strong>Estado Compacto:</strong> posição,
+                                máscara de direções livres, proximidade das 2
+                                ameaças mais próximas e se há pellet / power no
+                                tile.
+                            </li>
+                            <li>
+                                <strong>Ações:</strong> {`{←, →, ↑, ↓}`}{" "}
+                                filtrando movimentos inválidos (paredes).
+                            </li>
+                            <li>
+                                <strong>Recompensas Base:</strong> pellet +1.2,
+                                power +10, fantasma +8, vitória +50, morte −30,
+                                passo neutro −0.02.
+                            </li>
+                            <li>
+                                <strong>Penalizações Dinâmicas:</strong>{" "}
+                                starvation (cresce quadrático), looping
+                                (detecção local), revisita excessiva escalonada.
+                            </li>
+                            <li>
+                                <strong>Shaping Positivo:</strong> aproximação
+                                de pellets, maior distância mínima de fantasmas,
+                                bônus primeira visita e primeira coleta.
+                            </li>
+                            <li>
+                                <strong>Exploração Direcionada:</strong> viés
+                                forte para células nunca visitadas / com
+                                pellets; decaimento periódico de contagens.
+                            </li>
+                            <li>
+                                <strong>Planejamento Local:</strong> BFS
+                                limitada para encontrar rota ao próximo pellet
+                                fresco quando entorno está esgotado.
+                            </li>
+                            <li>
+                                <strong>Escape de Confinamento:</strong>{" "}
+                                detecção de "caixa" (bounding box reduzida +
+                                baixa diversidade) gera rota forçada de saída.
+                            </li>
+                            <li>
+                                <strong>Adaptação de ε:</strong> vitória acelera
+                                redução; morte precoce ou timeout aumentam /
+                                mantêm exploração controlada.
+                            </li>
+                        </ul>
+                    </article>
+                    <article
+                        className="ai-card"
+                        aria-labelledby="ghost-ai-title"
+                    >
+                        <h3 id="ghost-ai-title">
+                            Fantasmas (Personalidades & Modos)
+                        </h3>
+                        <ul className="ai-points">
+                            <li>
+                                <strong>Modos:</strong> scatter (cantinhos),
+                                chase (perseguição), frightened (aleatório
+                                lento), eyes (retorno à casa).
+                            </li>
+                            <li>
+                                <strong>Ciclo Temporal:</strong> alternância
+                                scatter↔chase baseada em tabela reduzida;
+                                frightened interrompe ciclo temporariamente.
+                            </li>
+                            <li>
+                                <strong>Blinky:</strong> mira diretamente o
+                                Pac-Man (pressão constante).
+                            </li>
+                            <li>
+                                <strong>Pinky:</strong> projeta 4+ células à
+                                frente da direção atual do Pac-Man.
+                            </li>
+                            <li>
+                                <strong>Inky:</strong> vetoriza combinação de
+                                posição projetada do Pac-Man e Blinky (efeito de
+                                cerco).
+                            </li>
+                            <li>
+                                <strong>Clyde:</strong> persegue se distante;
+                                recua ao canto se perto (&lt;=8 células).
+                            </li>
+                            <li>
+                                <strong>Frightened:</strong> movimento
+                                pseudo-aleatório + velocidade reduzida; captura
+                                gera olhos retornando.
+                            </li>
+                            <li>
+                                <strong>Decisão em Interseções:</strong> evita
+                                reversões gratuitas e escolhe direção que
+                                minimiza distância ao alvo contextual.
+                            </li>
+                            <li>
+                                <strong>Parâmetros Adaptativos:</strong> fatores
+                                (ex.: scatterFactor, predictionAhead,
+                                randomness) ajustam agressividade /
+                                previsibilidade.
+                            </li>
+                            <li>
+                                <strong>Separação de Responsabilidades:</strong>{" "}
+                                Game controla transições especiais (frightened /
+                                olhos); ghostAI gerencia alvo e direção.
+                            </li>
+                        </ul>
+                    </article>
+                    <article
+                        className="ai-card"
+                        aria-labelledby="design-rationale-title"
+                    >
+                        <h3 id="design-rationale-title">
+                            Racional & Estratégias
+                        </h3>
+                        <ul className="ai-points">
+                            <li>
+                                <strong>Equilíbrio:</strong> forte incentivo a
+                                novidade evita estagnação; penalidades calibram
+                                risco vs. progresso.
+                            </li>
+                            <li>
+                                <strong>Complexidade Controlada:</strong> estado
+                                discretizado reduz explosão de Q-table mantendo
+                                sinais suficientes.
+                            </li>
+                            <li>
+                                <strong>Pathfinding Híbrido:</strong> Q-Learning
+                                lida com longo prazo; BFS fornece
+                                micro-planejamento imediato em zonas exploradas.
+                            </li>
+                            <li>
+                                <strong>Anti-Stuck:</strong> múltiplas camadas
+                                (ping-pong, baixa diversidade, starvation,
+                                corner escape).
+                            </li>
+                            <li>
+                                <strong>Transparência:</strong> painel expõe
+                                heurísticas para análise acadêmica e ajustes
+                                futuros.
+                            </li>
+                        </ul>
+                    </article>
+                </div>
+                <p className="ai-footnote">
+                    Trabalho acadêmico – Demonstração de integração de
+                    Q-Learning com heurísticas de exploração e IA clássica
+                    baseada em estados para inimigos.
+                </p>
+            </section>
         </div>
     );
 
