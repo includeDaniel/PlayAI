@@ -99,9 +99,6 @@ export default function PythonFlappyBird(): JSX.Element {
                             <li>Como ajustar o movimento vertical para percorrer a maior distância possível.</li>
                         </ul>
                     </p>
-                    <p>
-                        A rede neural processa esses valores e gera uma saída, que determina se o pássaro deve pular. Com a evolução, a IA aprende padrões complexos, antecipando obstáculos e reagindo rapidamente a mudanças de altura.
-                    </p>
                     <div className="media-box flex-image-right">
                         <div className="media-text">
                             <p>
@@ -158,14 +155,6 @@ Se output ≤ 0.5 → NÃO PULA`}
                     <p>
                         Resumindo, a rede neural transforma informações do ambiente em decisões concretas (pular ou não) e sua estrutura evolui automaticamente para melhorar a performance da IA ao longo do tempo.
                     </p>
-                    <div className="media-box flex-image-right">
-                        <div className="media-text">
-                            <p>
-                                O NEAT permite que a topologia da rede evolua: adicionar ou remover nós e conexões, ajustando pesos e biases para aumentar a eficiência e maximizar a pontuação.
-                                Resumindo, a rede neural transforma informações do ambiente em decisões concretas (pular ou não) e sua estrutura evolui automaticamente para melhorar a performance da IA ao longo do tempo.
-                            </p>
-                        </div>
-                    </div>
                     <div className="media-box flex-image-right">
                         <div className="media-text">
                             <p>
