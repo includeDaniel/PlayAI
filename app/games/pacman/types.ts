@@ -37,9 +37,11 @@ export interface GameState {
     lastTime: number;
     gameOver: boolean;
     won: boolean;
-    ghostBrains?: Record<string, any>; // será tipado com GhostBrainState (import circular evitado aqui)
-    adaptive?: GhostAdaptiveParams; // parâmetros de aprendizado incremental
-    metrics?: GameMetrics; // métricas acumuladas da fase atual
+    ghostBrains?: Record<string, any>;
+    adaptive?: GhostAdaptiveParams;
+    metrics?: GameMetrics;
+    // --- RL apenas ---
+    rl?: PacmanRLState;
 }
 
 // Métricas de performance por fase para ajustar dificuldade
@@ -59,4 +61,33 @@ export interface GhostAdaptiveParams {
     scatterFactor: number; // fator multiplicador da duração de scatter (0.3..1)
     randomness: number; // probabilidade de escolha aleatória em interseções (0..0.5)
     levelLearned: number; // última fase em que atualização ocorreu
+}
+
+// Parâmetros de IA do Pac-Man
+// (Parâmetros e estruturas de GA removidos)
+
+// ================= Q-Learning =================
+export interface PacmanRLParams {
+    epsilon: number; // prob. de exploração atual
+    epsilonMin: number; // limite inferior
+    epsilonDecay: number; // multiplicador por episódio
+    alpha: number; // taxa de aprendizado
+    gamma: number; // fator de desconto
+}
+
+export interface PacmanRLMetrics {
+    episode: number; // contador de episódios (vidas)
+    totalReward: number; // recompensa acumulada do episódio corrente
+    lastReward: number; // última recompensa aplicada
+    avgRewardWindow: number; // média móvel simples
+    steps: number; // passos no episódio
+}
+
+export interface PacmanRLState {
+    qTable: Record<string, number[]>; // stateKey -> [Q_left,Q_right,Q_up,Q_down]
+    params: PacmanRLParams;
+    metrics: PacmanRLMetrics;
+    prevStateKey?: string;
+    prevActionIndex?: number; // 0..3
+    lastUpdateTime: number; // ms timestamp
 }
