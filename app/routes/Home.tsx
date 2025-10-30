@@ -7,7 +7,10 @@ import flappyBird from "../games/flappy-bird-js/assets/blue-bird.png";
 export function meta({}: Route.MetaArgs) {
     return [
         { title: "GameHub - Jogos com Inteligência Artificial" },
-        { name: "description", content: "Combinando Jogos com Inteligência Artificial" },
+        {
+            name: "description",
+            content: "Combinando Jogos com Inteligência Artificial",
+        },
     ];
 }
 
@@ -15,7 +18,7 @@ type GameLink = {
     name: string;
     description: string;
     image: string;
-    icon?: string;  // Emoji fallback quando não houver imagem
+    icon?: string; // Emoji fallback quando não houver imagem
     url: string;
 };
 
@@ -23,13 +26,15 @@ type GameLink = {
 const games: GameLink[] = [
     {
         name: "Flappy Bird AI",
-        description: "Uma IA em Python que aprende a jogar Flappy Bird sozinha!",
+        description:
+            "Uma IA em Python que aprende a jogar Flappy Bird sozinha!",
         image: "/PythonFlappyBird/FlappyBirdIcon.png",
         url: "/games/pythonFlappyBird",
     },
     {
         name: "Pokemon Battle AI",
-        description: "Monte seu time e enfrente uma IA que evolui suas estratégias!",
+        description:
+            "Monte seu time e enfrente uma IA que evolui suas estratégias!",
         image: "/Pokemon/PokemonIcon.svg",
         url: "/games/pokemon",
     },
@@ -39,11 +44,18 @@ const games: GameLink[] = [
         image: "app/games/pong-game-js/pong-icon.png",
         url: "/games/pong-game-js",
     },
-        {
+    {
         name: "Flappy Bird",
-        description: "Um agente de Flappy Bird usando Perceptron e Algoritmo Genético",
+        description:
+            "Um agente de Flappy Bird usando Perceptron e Algoritmo Genético",
         image: flappyBird,
         url: "/games/flappy-bird-js",
+    },
+    {
+        name: "Pac Man",
+        description: "Jogue Pac Man",
+        image: "",
+        url: "/games/pacman",
     },
 ];
 
@@ -52,7 +64,9 @@ export default function Home() {
         <div className="landing-container">
             <header className="hero">
                 <h1 className="title">🎮 GameHub</h1>
-                <p className="subtitle">Combinando Jogos com Inteligência Artificial</p>
+                <p className="subtitle">
+                    Combinando Jogos com Inteligência Artificial
+                </p>
                 <p className="subtitle">Escolha um jogo e divirta-se!</p>
             </header>
 
@@ -61,9 +75,15 @@ export default function Home() {
                     <Link key={game.name} to={game.url} className="game-card">
                         <div className="image-container">
                             {game.image ? (
-                                <img src={game.image} alt={game.name} className="game-image" />
+                                <img
+                                    src={game.image}
+                                    alt={game.name}
+                                    className="game-image"
+                                />
                             ) : (
-                                <div className="placeholder-icon">{game.icon || "🎮"}</div>
+                                <div className="placeholder-icon">
+                                    {game.icon || "🎮"}
+                                </div>
                             )}
                         </div>
                         <h2>{game.name}</h2>
@@ -74,7 +94,8 @@ export default function Home() {
 
             <footer className="footer">
                 <p>
-                    © {new Date().getFullYear()} GameHub — Trabalho prático de Inteligência Artificial
+                    © {new Date().getFullYear()} GameHub — Trabalho prático de
+                    Inteligência Artificial
                 </p>
             </footer>
         </div>
