@@ -182,13 +182,13 @@ Se output ≤ 0.5 → NÃO PULA`}
                             <strong>Fitness:</strong> pontuação baseada no desempenho (distância percorrida, canos ultrapassados, tempo de sobrevivência), indicando aptidão para reprodução.
                         </li>
                         <li>
-                            <strong>Seleção:</strong> apenas os pássaros com maior fitness têm maior chance de transmitir genes à próxima geração.
+                            <strong>Seleção:</strong> apenas os pássaros com maior fitness têm maior chance de transmitir genes à próxima geração, mas pode selecionar os 20% melhores para a recombinação genética.
                         </li>
                         <li>
-                            <strong>Crossover:</strong> mistura de genes de dois indivíduos selecionados, combinando características de ambos.
+                            <strong>Crossover:</strong> mistura de genes de 2 indivíduos selecionados, combinando características (média dos pesos) de ambos.
                         </li>
                         <li>
-                            <strong>Mutação:</strong> pequenas alterações aleatórias nos pesos, biases ou na estrutura da rede, explorando novas estratégias e evitando estagnação.
+                            <strong>Mutação:</strong> pequenas alterações aleatórias nos pesos, 80% das conexões sofrem uma mutação, a variação média no valor do peso é ±0.5 e 10% das conexões têm o peso totalmente substituído por um novo valor aleatório.
                         </li>
                     </ul>
 
