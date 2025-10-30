@@ -11,18 +11,6 @@ import {
     FRIGHTENED_MS,
 } from "./constants";
 import {
-    MAP,
-    ROWS,
-    COLS,
-    replaceMapChar,
-    resetMapToOriginal,
-    autoFillPellets,
-} from "./map";
-import {
-    isWall,
-    isPellet,
-    isPower,
-    nextCell,
     manhattan,
     choice,
     cellCenter,
@@ -30,7 +18,19 @@ import {
     validDirs,
     canTurn,
     chooseClosest,
+    isWall,
+    isPellet,
+    isPower,
+    nextCell,
 } from "./logic";
+import {
+    MAP,
+    ROWS,
+    COLS,
+    replaceMapChar,
+    resetMapToOriginal,
+    autoFillPellets,
+} from "./map";
 import { drawMap, drawPacman, drawGhost, overlay } from "./render";
 import {
     initGhostBrain,
@@ -98,11 +98,40 @@ export default function Game() {
                 setRunning((v) => !v);
                 return;
             }
-            if (iaModeRef.current) return; // ignora setas em modo IA
-            if (e.key === "ArrowLeft") s.pacman.nextDir = "left";
-            else if (e.key === "ArrowRight") s.pacman.nextDir = "right";
-            else if (e.key === "ArrowUp") s.pacman.nextDir = "up";
-            else if (e.key === "ArrowDown") s.pacman.nextDir = "down";
+            if (iaModeRef.current) return; // ignora setas/WASD em modo IA
+            const isMoveKey = [
+                "ArrowLeft",
+                "ArrowRight",
+                "ArrowUp",
+                "ArrowDown",
+                "a",
+                "A",
+                "d",
+                "D",
+                "w",
+                "W",
+                "s",
+                "S",
+            ].includes(e.key);
+            if (isMoveKey) {
+                e.preventDefault(); // evita scroll ou foco indesejado
+                if (e.key === "ArrowLeft" || e.key === "a" || e.key === "A")
+                    s.pacman.nextDir = "left";
+                else if (
+                    e.key === "ArrowRight" ||
+                    e.key === "d" ||
+                    e.key === "D"
+                )
+                    s.pacman.nextDir = "right";
+                else if (e.key === "ArrowUp" || e.key === "w" || e.key === "W")
+                    s.pacman.nextDir = "up";
+                else if (
+                    e.key === "ArrowDown" ||
+                    e.key === "s" ||
+                    e.key === "S"
+                )
+                    s.pacman.nextDir = "down";
+            }
         };
         window.addEventListener("keydown", onKey);
         return () => window.removeEventListener("keydown", onKey);
