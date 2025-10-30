@@ -1,0 +1,115 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #1a1a1a;
+    color: #ffffff;
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+}
+
+.container {
+    width: 100%;
+    margin: 0 auto;
+}
+
+h1 {
+    font-size: 2.5em;
+    color: #4CAF50;
+    margin: 20px 0;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-align: center;
+}
+
+#gameContainer {
+    width: 100%;
+    max-width: 1240px;
+    margin: 30px auto 50px auto;
+    background-color: #2a2a2a;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Estilo específico para o canvas do p5.js */
+#gameContainer canvas {
+    display: block;
+    margin: 0 auto;
+    max-width: 100%;
+    height: auto;
+}
+
+canvas {
+    display: block;
+    margin: 0 auto;
+}
+
+.explanation {
+    max-width: 800px;
+    margin: 40px auto;
+    text-align: left;
+    background-color: #2a2a2a;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+h2 {
+    color: #4CAF50;
+    margin-top: 30px;
+}
+
+.code-explanation {
+    background-color: #333;
+    padding: 20px;
+    border-radius: 5px;
+    margin: 10px 0;
+}
+
+.highlight {
+    color: #4CAF50;
+    font-weight: bold;
+}
+
+.code-block {
+    background-color: #1e1e1e;
+    border-radius: 5px;
+    padding: 15px;
+    margin: 15px 0;
+    overflow-x: auto;
+}
+
+.code-block pre {
+    margin: 0;
+}
+
+.code-block code {
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-size: 14px;
+    color: #d4d4d4;
+}
+
+h3 {
+    color: #4CAF50;
+    margin-top: 25px;
+    font-size: 1.3em;
+}
+
+.explanation ul {
+    padding-left: 20px;
+    margin: 10px 0;
+}
+
+.explanation li {
+    margin: 8px 0;
+}
+
+.explanation strong {
+    color: #4CAF50;
+}

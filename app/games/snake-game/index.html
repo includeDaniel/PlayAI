@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Snake AI</title>
+        <link rel="stylesheet" href="styles.css">
+    </head>
+    <body>
+        <div class="container">
+            <h1> Snake Game IA </h1>
+            
+            <div id="gameContainer"></div>
+            
+            <div class="explanation">
+                <h2>Como Funciona o Jogo</h2>
+                <p>
+                    Este não é um jogo comum de Snake - é uma demonstração de Inteligência Artificial em ação! 
+                    A cobra utiliza um algoritmo de pathfinding chamado A* (A-Star) para encontrar sempre o caminho 
+                    mais eficiente até a maçã, evitando colisões com seu próprio corpo.
+                </p>
+
+                <h2>Implementação Detalhada</h2>
+                
+                <h3>1. Movimento da Cobra</h3>
+                <p>
+                    A cobra é implementada como uma lista de posições no tabuleiro, onde cada posição é um vetor com coordenadas x e y.
+                    O movimento é controlado através da atualização dessas posições:
+                </p>
+                <div class="code-block">
+                    <pre><code>class Snake {
+    constructor() {
+        this.body = [];
+        // A cobra começa com comprimento 3 no canto superior esquerdo
+        for (let i = 0; i < 3; i++) {
+            this.body[i] = createVector(i, 0);
+        }
+        this.x_dir = 1;
+        this.y_dir = 0;
+    }</code></pre>
+                </div>
+
+                <h3>2. Sistema de Colisões</h3>
+                <p>
+                    O jogo implementa três tipos de verificações de colisão:
+                </p>
+                <ul>
+                    <li>Colisão com as paredes do tabuleiro</li>
+                    <li>Colisão com o próprio corpo da cobra</li>
+                    <li>Colisão (coleta) com a maçã</li>
+                </ul>
+                <div class="code-block">
+                    <pre><code>// Exemplo de verificação de colisão com parede
+if (this.getHeadPosition().x == 39 && this.x_dir == 1) {
+    noLoop();
+    console.log("Colisão com a parede");
+}</code></pre>
+                </div>
+
+                <h3>3. O Algoritmo A* (A-Star)</h3>
+                <p>
+                    O algoritmo A* é implementado usando três componentes principais:
+                </p>
+                <ul>
+                    <li><strong>g-score:</strong> Custo do caminho do início até o nó atual</li>
+                    <li><strong>h-score (heurística):</strong> Estimativa do custo do nó atual até o objetivo usando distância Manhattan</li>
+                    <li><strong>f-score:</strong> Soma de g-score e h-score, usado para decidir qual nó explorar</li>
+                </ul>
+                <div class="code-block">
+                    <pre><code>// Cálculo dos scores no algoritmo A*
+filho.g = no_atual.g + 1;
+filho.h = Math.abs(filho.x - no_fim.x) + Math.abs(filho.y - no_fim.y);
+filho.f = filho.g + filho.h;</code></pre>
+                </div>
+
+                <h3>4. Geração da Maçã</h3>
+                <p>
+                    A maçã é posicionada aleatoriamente em espaços vazios do tabuleiro. O sistema mantém uma lista
+                    de todas as posições possíveis e remove aquelas ocupadas pela cobra:
+                </p>
+                <div class="code-block">
+                    <pre><code>generate(snake_body) {
+    const empty_boxes = this.boxes.filter(function (value) {
+        for (let i = 0; i < snake_body.length; i++) {
+            if (value.x == snake_body[i].x && value.y == snake_body[i].y) {
+                return false;
+            }
+        }
+        return true;
+    });
+    // Escolhe uma posição aleatória dentre as disponíveis
+    const random_position = empty_boxes[int(random(0, empty_boxes.length))];</code></pre>
+                </div>
+
+                <h3>5. Sistema de Planejamento de Rotas</h3>
+                <p>
+                    O diferencial deste jogo está no seu sistema inteligente de planejamento de rotas, que:
+                </p>
+                <ul>
+                    <li>Recalcula o caminho sempre que a cobra atinge a posição anterior da cauda</li>
+                    <li>Verifica se existe uma rota de fuga após pegar a maçã</li>
+                    <li>Mantém um caminho hamiltoniano virtual para evitar becos sem saída</li>
+                </ul>
+                <div class="code-block">
+                    <pre><code>// Recálculo do caminho
+if ((this.getHeadPosition().x == this.tail_position.x && 
+     this.getHeadPosition().y == this.tail_position.y) || 
+     this.body.length > 600) {
+    this.tail_position = this.getTailPosition();
+    search.getPath();
+}</code></pre>
+                </div>
+
+            </div>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/p5@1.3.1/lib/p5.js"></script>
+        <script src="snake.js"></script>
+        <script src="apple.js"></script>
+        <script src="search.js"></script>
+        <script src="sketch.js"></script>
+    </body>
+    </body>
+</html>
