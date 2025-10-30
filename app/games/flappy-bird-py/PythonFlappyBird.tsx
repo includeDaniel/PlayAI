@@ -226,60 +226,10 @@ Se output ≤ 0.5 → NÃO PULA`}
                             <p className="caption">Figura 4 — Processo de seleção no NEAT (indivíduos selecionados para reprodução).</p>
                         </div>
                     </div>
-                </section>
-
-                {/* 5. Comparação entre RNA e Algoritmo Genético */}
-                <section className="section">
-                    <h2>Paralelo entre Rede Neural e Algoritmo Genético</h2>
-                    <p>
-                        A rede neural é o "organismo" que reage ao ambiente, enquanto o NEAT é a "evolução" que seleciona e aprimora esses organismos ao longo das gerações.
-                    </p>
-                    <table style={{ width: "100%", borderCollapse: "collapse" }}>
-                        <thead>
-                            <tr>
-                                <th style={{ borderBottom: "1px solid #333", padding: "0.5rem" }}>Conceito</th>
-                                <th style={{ borderBottom: "1px solid #333", padding: "0.5rem" }}>Rede Neural</th>
-                                <th style={{ borderBottom: "1px solid #333", padding: "0.5rem" }}>Algoritmo Genético</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td style={{ padding: "0.5rem" }}>Cromossomo</td>
-                                <td style={{ padding: "0.5rem" }}>Conjunto completo de pesos e biases da rede neural, representando a “configuração genética” do pássaro.</td>
-                                <td style={{ padding: "0.5rem" }}>Representação do indivíduo na população, definindo comportamento inicial.</td>
-                            </tr>
-                            <tr>
-                                <td style={{ padding: "0.5rem" }}>Gene</td>
-                                <td style={{ padding: "0.5rem" }}>Peso ou bias individual dentro da rede, influenciando diretamente a decisão (pular ou não).</td>
-                                <td style={{ padding: "0.5rem" }}>Peso ou bias específico do indivíduo, cuja alteração pode modificar comportamento.</td>
-                            </tr>
-                            <tr>
-                                <td style={{ padding: "0.5rem" }}>Mutação</td>
-                                <td style={{ padding: "0.5rem" }}>Ajuste leve em pesos e biases, explorando novas estratégias sem destruir aprendizado.</td>
-                                <td style={{ padding: "0.5rem" }}>Alteração aleatória de genes, introduzindo diversidade genética.</td>
-                            </tr>
-                            <tr>
-                                <td style={{ padding: "0.5rem" }}>Fitness</td>
-                                <td style={{ padding: "0.5rem" }}>Pontuação no jogo (distância, canos ultrapassados), indicando performance da rede.</td>
-                                <td style={{ padding: "0.5rem" }}>Avaliação do desempenho do indivíduo; maior fitness aumenta chance de reprodução.</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <p>
-                        Em resumo, a rede neural determina o comportamento do pássaro, enquanto o NEAT seleciona, mistura e evolui essas redes, permitindo aprendizado contínuo e estratégias cada vez mais eficientes.
-                    </p>
-
-                    <div className="media-box flex-image-right">
-                        <div className="media-text">
-                            <p>
-                                Resultado final: IA dominando o jogo após várias gerações, atingindo alta pontuação e desempenho consistente.
-                            </p>
-                        </div>
-                        <div className="media-img">
+                    <div className="media-img">
                             <img src="/PythonFlappyBird/highScore.png" alt="Gráfico mostrando a IA alcançando alta pontuação após várias gerações de treinamento." />
                             <p className="caption">Figura 5 — Resultado final: IA dominando o jogo após várias gerações.</p>
                         </div>
-                    </div>
                 </section>
 
                 {/* 6. Download e execução */}
