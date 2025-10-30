@@ -41,7 +41,7 @@ const games: GameLink[] = [
     {
         name: "Pong AI",
         description: "Jogue Pong contra uma IA desafiadora!",
-        image: "app/games/pong-game-js/pong-icon.png",
+        image: "/PongGame/pong-icon.png",
         url: "/games/pong-game-js",
     },
     {
