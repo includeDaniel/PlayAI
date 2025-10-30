@@ -53,8 +53,9 @@ const games: GameLink[] = [
     },
     {
         name: "Pac Man",
-        description: "Jogue Pac Man",
-        image: "",
+        description:
+            "Jogue Pac Man com fantasmas controlados por IA ou veja um algoritmo de IA contra outros!",
+        image: "/PacMan/Pacman.png",
         url: "/games/pacman",
     },
 ];
