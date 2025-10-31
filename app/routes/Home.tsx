@@ -58,6 +58,14 @@ const games: GameLink[] = [
         image: "/PacMan/Pacman.png",
         url: "/games/pacman",
     },
+    {
+        name: "Snake AI",
+        description:
+            "Veja uma IA aprender a jogar Snake usando A*!",
+        image: "/SnakeGame.png",
+        url: "/games/snake-game",
+
+    },
 ];
 
 export default function Home() {
